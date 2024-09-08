@@ -13,3 +13,6 @@ currency_endpoint in services.yaml in a way:
 replace xxx pattern with your own access key.
 
 Project made with PHP 8.3 and Symfony 7
+Packages used:
+jms serializer with bundle,
+phpunit
