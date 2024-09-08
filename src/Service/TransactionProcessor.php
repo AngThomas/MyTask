@@ -2,12 +2,13 @@
 
 namespace App\Service;
 
+use App\Enum\EUCountry;
 use App\Model\Transaction;
 
 readonly class TransactionProcessor
 {
     public function __construct(
-        private BinService $binService,
+        private BinFetcher $binService,
         private CurrencyService $currencyService
     )
     {
@@ -37,7 +38,7 @@ readonly class TransactionProcessor
     public function processTransaction(Transaction $transaction): float
     {
         $countryCode = $this->binService->getCountryCode($transaction->getBin());
-        $isEu = $this->binService->isEuropeanCountry($countryCode);
+        $isEu = EUCountry::isEU($countryCode);
         $amountInEur = $this->currencyService->convertToEur($transaction->getAmount(), $transaction->getCurrency());
         $feePercentage = $isEu ? 0.01 : 0.02;
         return $amountInEur * $feePercentage;

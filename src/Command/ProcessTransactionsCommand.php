@@ -2,15 +2,12 @@
 
 namespace App\Command;
 
-use App\Model\Transaction;
 use App\Service\TransactionParser;
 use App\Service\TransactionProcessor;
-use JMS\Serializer\SerializerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\RuntimeException;
 
 class ProcessTransactionsCommand extends Command
 {
@@ -42,6 +39,7 @@ class ProcessTransactionsCommand extends Command
 
         } catch (\Exception $e) {
             $output->writeln('Error: ' . $e->getMessage());
+
             return Command::FAILURE;
         }
 
