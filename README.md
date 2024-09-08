@@ -4,7 +4,7 @@ Comission calculation is launched with symfony command:
 php bin/console ProcessTransactions /path/to/input.txt
 there is input.txt file in /public/data
 
-When bin API return empty objects, the corresponding commission line in ouput will have 'No data' content
+When bin API return empty objects, the corresponding commission line will output 0.0
 
 Unit tests are lanched by php vendor/bin/phpuniyt command.
 
