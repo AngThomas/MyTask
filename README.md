@@ -1,8 +1,8 @@
 # MyTask
 
 Comission calculation is launched with symfony command:
-php bin/console ProcessTransactions /path/to/input.txt
-there is input.txt file in /public/data
+php bin/console ProcessTransactions /path/to/input.txt.
+There is input.txt file in /public/data
 
 When bin API return empty objects, the corresponding commission line will output 0.0
 
