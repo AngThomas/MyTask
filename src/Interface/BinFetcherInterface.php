@@ -4,5 +4,5 @@ namespace App\Interface;
 
 interface BinFetcherInterface
 {
-    public function fetchBinData(string $bin): string;
+    public function fetchCountryCode(string $bin): ?string;
 }

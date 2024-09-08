@@ -8,6 +8,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "jms/serializer": "^3.30",
+        "jms/serializer-bundle": "^5.4",
+        "phpunit/phpunit": "^11.3",
         "symfony/console": "7.1.*",
         "symfony/dotenv": "7.1.*",
         "symfony/flex": "^2",

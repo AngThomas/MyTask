@@ -43,10 +43,15 @@ readonly class TransactionParser
      */
     private function deserializeTransactions(string $fileContent): array
     {
-        return $this->serializer->deserialize(
-            $fileContent,
-            'array<App\Model\Transaction>',
-            'json'
+        return array_filter(
+            array_map(
+                fn(string $line) => $this->serializer->deserialize($line, Transaction::class, 'json'),
+                array_filter(
+                    explode("\n", trim($fileContent)),
+                    fn(string $line) => !empty($line)
+                )
+            ),
+            fn($transaction) => $transaction instanceof Transaction
         );
     }
 }

@@ -1,4 +1,0 @@
-bin_endpoint:
-  url: 'https://lookup.binlist.net/'
-currency_endpoint:
-  url: 'https://api.exchangeratesapi.io/latest'

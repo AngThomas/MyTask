@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Enum\EUCountry;
 use App\Model\Transaction;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 readonly class TransactionProcessor
 {
@@ -16,31 +17,36 @@ readonly class TransactionProcessor
 
     /**
      * @param Transaction[] $transactions
-     * @return array<int, float>
-     * @throws \Exception
+     * @return array<int, ?float>
+     * @throws TransportExceptionInterface
      */
     public function processTransactions(array $transactions): array
     {
-        $fees = [];
+        $commissions = [];
 
         foreach ($transactions as $transaction) {
-            $fees[] = $this->processTransaction($transaction);
+            $commissions[] = $this->processTransaction($transaction) ?? 'No data';
         }
 
-        return $fees;
+        return $commissions;
     }
 
     /**
      * @param Transaction $transaction
-     * @return float
+     * @return null|float
      * @throws \Exception
+     * @throws TransportExceptionInterface
      */
-    public function processTransaction(Transaction $transaction): float
+    public function processTransaction(Transaction $transaction): ?float
     {
-        $countryCode = $this->binFetcher->fetchBinData($transaction->getBin());
+        $countryCode = $this->binFetcher->fetchCountryCode($transaction->getBin());
+        if ($countryCode === null) {
+            return null;
+        }
+
         $isEu = EUCountry::isEU($countryCode);
         $amountInEur = $this->currencyService->convertToEur($transaction->getAmount(), $transaction->getCurrency());
         $feePercentage = $isEu ? 0.01 : 0.02;
-        return $amountInEur * $feePercentage;
+        return round($amountInEur * $feePercentage, 2);
     }
 }
