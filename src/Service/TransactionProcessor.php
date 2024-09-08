@@ -8,7 +8,7 @@ use App\Model\Transaction;
 readonly class TransactionProcessor
 {
     public function __construct(
-        private BinFetcher $binService,
+        private BinFetcher $binFetcher,
         private CurrencyService $currencyService
     )
     {
@@ -37,7 +37,7 @@ readonly class TransactionProcessor
      */
     public function processTransaction(Transaction $transaction): float
     {
-        $countryCode = $this->binService->getCountryCode($transaction->getBin());
+        $countryCode = $this->binFetcher->fetchBinData($transaction->getBin());
         $isEu = EUCountry::isEU($countryCode);
         $amountInEur = $this->currencyService->convertToEur($transaction->getAmount(), $transaction->getCurrency());
         $feePercentage = $isEu ? 0.01 : 0.02;
