@@ -25,7 +25,7 @@ readonly class TransactionProcessor
         $commissions = [];
 
         foreach ($transactions as $transaction) {
-            $commissions[] = $this->processTransaction($transaction) ?? 'No data';
+            $commissions[] = $this->processTransaction($transaction) ?? '0.0';
         }
 
         return $commissions;

@@ -37,8 +37,8 @@ class ProcessTransactionsCommand extends Command
 
         try {
             $transactions = $this->transactionParser->readTransactions($filePath);
-            $fees = $this->transactionProcessor->processTransactions($transactions);
-            $this->showFees($fees, $output);
+            $commissions = $this->transactionProcessor->processTransactions($transactions);
+            $this->showCommissions($commissions, $output);
 
         } catch (\Exception $e) {
             $output->writeln('Error: ' . $e->getMessage());
@@ -49,10 +49,10 @@ class ProcessTransactionsCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function showFees(array $fees, OutputInterface $output): void
+    private function showCommissions(array $commissions, OutputInterface $output): void
     {
-        foreach ($fees as $fee) {
-            $output->writeln('Fee: ' . $fee);
+        foreach ($commissions as $commission) {
+            $output->writeln('Commission: ' . $commission);
         }
     }
 }
