@@ -2,20 +2,20 @@
 
 namespace App\Command;
 
-use App\Model\Transaction;
 use App\Service\TransactionParser;
 use App\Service\TransactionProcessor;
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Exception\RuntimeException;
 
+#[AsCommand(
+    name: 'ProcessTransactions',
+    description: 'Sends the newsletter to new active users.',
+)]
 class ProcessTransactionsCommand extends Command
 {
-    protected static string $defaultName = 'app:process-transactions';
-
     public function __construct(
         private readonly TransactionProcessor $transactionProcessor,
         private readonly TransactionParser $transactionParser
@@ -42,6 +42,7 @@ class ProcessTransactionsCommand extends Command
 
         } catch (\Exception $e) {
             $output->writeln('Error: ' . $e->getMessage());
+
             return Command::FAILURE;
         }
 
